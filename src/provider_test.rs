@@ -1,9 +1,18 @@
+use log::debug;
 use crate::provider::{ShippingDatabase, ShippingRateQuery, ShippingItem};
-use crate::types::{ServiceLevel, Region};
+use crate::types::{Provider, Region, ServiceLevel};
+
+fn setup() -> ShippingDatabase {
+    let _ = env_logger::builder()
+        .is_test(true)
+        .filter_level(log::LevelFilter::Debug)  // Set to Debug level
+        .try_init();
+    ShippingDatabase::from_file("shipping_rates.json").unwrap()
+}
 
 #[test]
 fn test_dhl_express_1kg_to_france() {
-    let db = ShippingDatabase::from_file("shipping_rates.json").unwrap();
+   let db = setup();
     let query = ShippingRateQuery {
         source_region: Region {
             country: "DE".to_string(),
@@ -20,6 +29,7 @@ fn test_dhl_express_1kg_to_france() {
             width: Some(20),
             height: Some(8),
         }],
+        provider: None,
         service_level: Some(ServiceLevel::Express),
     };
     
@@ -30,8 +40,8 @@ fn test_dhl_express_1kg_to_france() {
 }
 
 #[test]
-fn test_dhl_standard_2kg_to_france() {
-    let db = ShippingDatabase::from_file("shipping_rates.json").unwrap();
+fn test_dpd_standard_germany_to_france() {
+    let db = setup();
     let query = ShippingRateQuery {
         source_region: Region {
             country: "DE".to_string(),
@@ -48,6 +58,34 @@ fn test_dhl_standard_2kg_to_france() {
             width: Some(20),
             height: Some(2),
         }],
+        provider: Some(Provider::DPD),
+        service_level: Some(ServiceLevel::Standard),
+    };
+
+    let results = db.get_total_shipping_cost(&query).unwrap();
+    assert!((results - 12.90).abs() < 0.001);
+}
+
+#[test]
+fn test_dhl_standard_2kg_to_france() {
+   let db = setup();
+    let query = ShippingRateQuery {
+        source_region: Region {
+            country: "DE".to_string(),
+            region: None,
+        },
+        destination_region: Region {
+            country: "FR".to_string(),
+            region: None,
+        },
+        items: vec![ShippingItem {
+            identifier: "small_package".to_string(),
+            weight: Some(1500),
+            length: Some(30),
+            width: Some(20),
+            height: Some(2),
+        }],
+        provider: None,
         service_level: Some(ServiceLevel::Standard),
     };
     
@@ -60,7 +98,7 @@ fn test_dhl_standard_2kg_to_france() {
 
 #[test]
 fn test_package_too_heavy() {
-    let db = ShippingDatabase::from_file("shipping_rates.json").unwrap();
+   let db = setup();
     let query = ShippingRateQuery {
         source_region: Region {
             country: "DE".to_string(),
@@ -77,6 +115,7 @@ fn test_package_too_heavy() {
             width: Some(30),
             height: Some(15),
         }],
+        provider: None,
         service_level: Some(ServiceLevel::Standard),
     };
     
@@ -86,7 +125,7 @@ fn test_package_too_heavy() {
 
 #[test]
 fn test_package_dimensions_check() {
-    let db = ShippingDatabase::from_file("shipping_rates.json").unwrap();
+   let db = setup();
     let query = ShippingRateQuery {
         source_region: Region {
             country: "DE".to_string(),
@@ -103,6 +142,7 @@ fn test_package_dimensions_check() {
             width: Some(80),
             height: Some(70),
         }],
+        provider: None,
         service_level: Some(ServiceLevel::Standard),
     };
     
@@ -112,7 +152,7 @@ fn test_package_dimensions_check() {
 
 #[test]
 fn test_multiple_items() {
-    let db = ShippingDatabase::from_file("shipping_rates.json").unwrap();
+   let db = setup();
     let query = ShippingRateQuery {
         source_region: Region {
             country: "DE".to_string(),
@@ -138,6 +178,7 @@ fn test_multiple_items() {
                 height: Some(20),
             },
         ],
+        provider: None,
         service_level: Some(ServiceLevel::Standard),
     };
     
@@ -147,7 +188,7 @@ fn test_multiple_items() {
 
 #[test]
 fn test_get_best_rates() {
-    let db = ShippingDatabase::from_file("shipping_rates.json").unwrap();
+   let db = setup();
     let query = ShippingRateQuery {
         source_region: Region {
             country: "DE".to_string(),
@@ -166,6 +207,7 @@ fn test_get_best_rates() {
                 height: Some(2),
             },
         ],
+        provider: None,
         service_level: Some(ServiceLevel::Standard),
     };
     
@@ -177,7 +219,7 @@ fn test_get_best_rates() {
 
 #[test]
 fn test_get_total_shipping_cost() {
-    let db = ShippingDatabase::from_file("shipping_rates.json").unwrap();
+   let db = setup();
     let query = ShippingRateQuery {
         source_region: Region {
             country: "DE".to_string(),
@@ -203,6 +245,7 @@ fn test_get_total_shipping_cost() {
                 height: Some(20),
             },
         ],
+        provider: None,
         service_level: Some(ServiceLevel::Standard),
     };
     
@@ -212,7 +255,7 @@ fn test_get_total_shipping_cost() {
 
 #[test]
 fn test_get_best_rates_express() {
-    let db = ShippingDatabase::from_file("shipping_rates.json").unwrap();
+   let db = setup();
     let query = ShippingRateQuery {
         source_region: Region {
             country: "DE".to_string(),
@@ -231,6 +274,7 @@ fn test_get_best_rates_express() {
                 height: Some(8),
             },
         ],
+        provider: None,
         service_level: Some(ServiceLevel::Express),
     };
     

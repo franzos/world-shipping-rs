@@ -1,5 +1,7 @@
 use std::collections::HashMap;
-use crate::types::{Dimensions, Provider, RateInfo, Region, ServiceInfo, ServiceLevel};
+use serde::{Deserialize, Serialize};
+
+use crate::types::{Dimensions, Provider, ProviderInfo, RateInfo, Region, ServiceInfo, ServiceLevel};
 use super::types::Rate;
 
 // Item to be shipped
@@ -12,6 +14,7 @@ pub struct ShippingItem {
 }
 
 impl ShippingItem {
+    // Sum of length, width, and height
     fn length_width_height(&self) -> Option<u32> {
         let mut dimension = 0;
         if let Some(length) = self.length {
@@ -28,21 +31,55 @@ impl ShippingItem {
         }
         Some(dimension)
     }
-    fn longest_side(&self) -> Option<u32> {
-        let mut longest_side = 0;
+    // Shortest side of the item
+    fn shortest_side(&self) -> Option<u32> {
+        // sort available dimensions (length, width, height)
+        // return the shortest side
+        let mut dimensions = Vec::new();
         if let Some(length) = self.length {
-            longest_side = length;
+            dimensions.push(length);
         }
         if let Some(width) = self.width {
-            longest_side = width;
+            dimensions.push(width);
         }
         if let Some(height) = self.height {
-            longest_side = height;
+            dimensions.push(height);
         }
-        if longest_side == 0 {
+        if dimensions.len() == 0 {
             return None;
         }
-        Some(longest_side)
+        dimensions.sort();
+        Some(dimensions[0])
+    }
+    // Longest side of the item
+    fn longest_side(&self) -> Option<u32> {
+        // sort available dimensions (length, width, height)
+        // return the longest side
+        let mut dimensions = Vec::new();
+        if let Some(length) = self.length {
+            dimensions.push(length);
+        }
+        if let Some(width) = self.width {
+            dimensions.push(width);
+        }
+        if let Some(height) = self.height {
+            dimensions.push(height);
+        }
+        if dimensions.len() == 0 {
+            return None;
+        }
+        dimensions.sort();
+        Some(dimensions[dimensions.len() - 1])
+    }
+    // Length of the shortest + longest side
+    fn shortest_longest_side(&self) -> Option<u32> {
+        if let Some(shortest_side) = self.shortest_side() {
+            if let Some(longest_side) = self.longest_side() {
+                return Some(shortest_side + longest_side);
+            }
+            return None;
+        }
+        None
     }
     fn is_smaller_or_equal_length_with_height_max(&self, length_width_height_max: Option<u32>) -> bool {
         if let Some(length_width_height_max) = length_width_height_max {
@@ -61,6 +98,18 @@ impl ShippingItem {
         if let Some(longest_side_max) = longest_side_max {
             if let Some(longest_side) = self.longest_side() {
                 if longest_side <= longest_side_max {
+                    return true;
+                }
+            }
+        } else {
+            return true;
+        }
+        false
+    }
+    fn is_smaller_or_equal_shortest_longest_side_max(&self, shortest_longest_side_max: Option<u32>) -> bool {
+        if let Some(shortest_longest_side_max) = shortest_longest_side_max {
+            if let Some(longest_side) = self.shortest_longest_side() {
+                if longest_side <= shortest_longest_side_max {
                     return true;
                 }
             }
@@ -127,6 +176,9 @@ impl ShippingItem {
             if !self.is_smaller_or_equal_longest_side_max(rate_info.clone().max_dimensions.unwrap().longest_side_max) {
                 return false;
             }
+            if !self.is_smaller_or_equal_shortest_longest_side_max(rate_info.clone().max_dimensions.unwrap().shortest_longest_side_max) {
+                return false;
+            }
         }
         true
     }
@@ -137,17 +189,19 @@ pub struct ShippingRateQuery {
     pub source_region: Region,
     pub destination_region: Region,
     pub items: Vec<ShippingItem>,
+    pub provider: Option<Provider>,
     pub service_level: Option<ServiceLevel>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone,  Serialize, Deserialize)]
 pub struct ApplicableService {
-    pub provider: Provider,
+    pub provider: ProviderInfo,
     pub service: ServiceInfo,
     pub rate_info: RateInfo,
     pub rate: Rate,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ShippingRateItemResult {
     pub item_identifier: String,
     pub applicable_services: Vec<ApplicableService>,
@@ -160,23 +214,39 @@ pub struct ShippingRateQueryResult {
 
 // String = Country code
 pub struct ShippingDatabase {
-    countries: HashMap<String, Vec<Provider>>,
+    countries: HashMap<String, Vec<ProviderInfo>>,
 }
 
 impl ShippingDatabase {
     pub fn from_file(path: &str) -> Result<Self, Box<dyn std::error::Error>> {
         let countries_data = std::fs::read_to_string(path)?;
 
-        let countries: HashMap<String, Vec<Provider>> = serde_json::from_str(&countries_data)?;
+        let countries: HashMap<String, Vec<ProviderInfo>> = serde_json::from_str(&countries_data)?;
 
         Ok(Self { countries })
     }
 
-    fn get_country_services(&self, country_code: &str) -> Option<&Vec<Provider>> {
+    fn get_country_services(&self, country_code: &str) -> Option<&Vec<ProviderInfo>> {
         self.countries.get(country_code)
     }
+
+    fn filter_by_provider(&self, providers: &Vec<ProviderInfo>, provider: Option<Provider>) -> Option<Vec<ProviderInfo>> {
+        if let Some(provider) = provider {
+            let mut filtered_providers = Vec::new();
+            for provider_info in providers {
+                if provider_info.id == provider {
+                    filtered_providers.push(provider_info.clone());
+                }
+            }
+            if filtered_providers.is_empty() {
+                return None;
+            }
+            return Some(filtered_providers);
+        }
+        Some(providers.clone())
+    }
     
-    fn filter_provider_by_service_level(&self, providers: &Vec<Provider>, service_level: Option<ServiceLevel>) -> Option<Vec<Provider>> {
+    fn filter_provider_by_service_level(&self, providers: &Vec<ProviderInfo>, service_level: Option<ServiceLevel>) -> Option<Vec<ProviderInfo>> {
         if let Some(service_level) = service_level {
             let mut filtered_providers = Vec::new();
             for provider in providers {
@@ -213,7 +283,7 @@ impl ShippingDatabase {
         None
     }
 
-    fn match_services_with_shipping_item(&self, providers: &Vec<Provider>, item: &ShippingItem, destination: &Region) -> Option<Vec<ApplicableService>> {
+    fn match_services_with_shipping_item(&self, providers: &Vec<ProviderInfo>, item: &ShippingItem, destination: &Region) -> Option<Vec<ApplicableService>> {
         let mut applicable_services = Vec::new();
         for provider in providers {
             for service in &provider.services {
@@ -244,15 +314,19 @@ impl ShippingDatabase {
     pub fn get_rates(&self, query: &ShippingRateQuery) -> Result<Vec<ShippingRateItemResult>, Box<dyn std::error::Error>> {
         // 1. Get the country services for the source country
         let providers = self.get_country_services(&query.source_region.country).ok_or("Country not found")?;
-        let filtered_providers = self.filter_provider_by_service_level(&providers, query.service_level.clone());
-        if filtered_providers.is_none() {
+        let filtered_by_provider = self.filter_by_provider(&providers, query.provider.clone());
+        if filtered_by_provider.is_none() {
+            return Err("No providers found".into());
+        }
+        let filtered_by_service_level = self.filter_provider_by_service_level(&filtered_by_provider.unwrap(), query.service_level.clone());
+        if filtered_by_service_level.is_none() {
             return Err("No providers found".into());
         }
 
         let mut results = Vec::new();
 
         for item in &query.items {
-            let applicable_services = self.match_services_with_shipping_item(&filtered_providers.clone().unwrap(), item, &query.destination_region);
+            let applicable_services = self.match_services_with_shipping_item(&filtered_by_service_level.clone().unwrap(), item, &query.destination_region);
             if applicable_services.is_none() {
                 continue;
             }

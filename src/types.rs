@@ -1,10 +1,27 @@
 use std::collections::HashMap;
 use serde::{Serialize, Deserialize};
 
+#[derive(Debug, Serialize, Deserialize, PartialEq, Clone)]
+pub enum Provider {
+    #[serde(rename = "ups")]
+    UPS,
+    #[serde(rename = "fedex")]
+    FedEx,
+    #[serde(rename = "dhl")]
+    DHL,
+    #[serde(rename = "usps")]
+    USPS,
+    #[serde(rename = "la_poste")]
+    LaPoste,
+    #[serde(rename = "dpd")]
+    DPD,
+}
+
 // String = Carrier service level
 #[derive(Debug, Serialize, Deserialize, Clone)]
-pub struct Provider {
-    pub provider: String,
+pub struct ProviderInfo {
+    pub name: String,
+    pub id: Provider,
     pub services: Vec<ServiceInfo>,
 }
 
@@ -59,6 +76,7 @@ pub struct Dimensions {
     pub height: Option<u32>,
     pub length_width_height_max: Option<u32>,
     pub longest_side_max: Option<u32>,
+    pub shortest_longest_side_max: Option<u32>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]

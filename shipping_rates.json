@@ -1,7 +1,8 @@
 {
     "DE": [
         {
-            "provider": "DHL",
+            "name": "DHL",
+            "id": "dhl",
             "services": [
                 {
                     "service": "Express",
@@ -138,7 +139,11 @@
                             "tracking_included": false,
                             "rate": [
                                 {
-                                    "countries": ["DE", "AT", "BE", "DK", "LU", "NL", "PL", "CZ", "SK", "SI", "FI", "SE", "EE", "LV", "LT", "HR", "BG", "RO", "HU", "MT", "CY", "IE", "PT", "ES", "FR", "IT"],
+                                    "countries": ["DE"],
+                                    "online_price": 3.99
+                                },
+                                {
+                                    "countries": ["AT", "BE", "DK", "LU", "NL", "PL", "CZ", "SK", "SI", "FI", "SE", "EE", "LV", "LT", "HR", "BG", "RO", "HU", "MT", "CY", "IE", "PT", "ES", "FR", "IT"],
                                     "online_price": 6.49
                                 }
                             ],
@@ -162,6 +167,10 @@
                             "tracking_included": false,
                             "rate": [
                                 {
+                                    "countries": ["DE"],
+                                    "online_price": 4.79
+                                },
+                                {
                                     "countries": ["DE", "AT", "BE", "DK", "LU", "NL", "PL", "CZ", "SK", "SI", "FI", "SE", "EE", "LV", "LT", "HR", "BG", "RO", "HU", "MT", "CY", "IE", "PT", "ES", "FR", "IT"],
                                     "online_price": 10.49
                                 }
@@ -179,6 +188,10 @@
                             "insurance_amount": 500,
                             "tracking_included": true,
                             "rate": [
+                                {
+                                    "countries": ["DE"],
+                                    "online_price": 5.49
+                                },
                                 {
                                     "countries": ["DE", "AT", "BE", "DK", "LU", "NL", "PL", "CZ", "SK", "SI", "FI", "SE", "EE", "LV", "LT", "HR", "BG", "RO", "HU", "MT", "CY", "IE", "PT", "ES", "FR", "IT"],
                                     "online_price": 14.49
@@ -198,6 +211,10 @@
                             "tracking_included": true,
                             "rate": [
                                 {
+                                    "countries": ["DE"],
+                                    "online_price": 6.99
+                                },
+                                {
                                     "countries": ["DE", "AT", "BE", "DK", "LU", "NL", "PL", "CZ", "SK", "SI", "FI", "SE", "EE", "LV", "LT", "HR", "BG", "RO", "HU", "MT", "CY", "IE", "PT", "ES", "FR", "IT"],
                                     "online_price": 16.49
                                 }
@@ -215,6 +232,10 @@
                             "insurance_amount": 500,
                             "tracking_included": true,
                             "rate": [
+                                {
+                                    "countries": ["DE"],
+                                    "online_price": 10.49
+                                },
                                 {
                                     "countries": ["DE", "AT", "BE", "DK", "LU", "NL", "PL", "CZ", "SK", "SI", "FI", "SE", "EE", "LV", "LT", "HR", "BG", "RO", "HU", "MT", "CY", "IE", "PT", "ES", "FR", "IT"],
                                     "online_price": 21.49
@@ -234,6 +255,10 @@
                             "tracking_included": true,
                             "rate": [
                                 {
+                                    "countries": ["DE"],
+                                    "online_price": 18.99
+                                },
+                                {
                                     "countries": ["DE", "AT", "BE", "DK", "LU", "NL", "PL", "CZ", "SK", "SI", "FI", "SE", "EE", "LV", "LT", "HR", "BG", "RO", "HU", "MT", "CY", "IE", "PT", "ES", "FR", "IT"],
                                     "online_price": 27.30
                                 }
@@ -252,9 +277,192 @@
                             "tracking_included": true,
                             "rate": [
                                 {
+                                    "countries": ["DE"],
+                                    "online_price": 23.99,
+                                    "vat_exemption": false
+                                },
+                                {
                                     "countries": ["DE", "AT", "BE", "DK", "LU", "NL", "PL", "CZ", "SK", "SI", "FI", "SE", "EE", "LV", "LT", "HR", "BG", "RO", "HU", "MT", "CY", "IE", "PT", "ES", "FR", "IT"],
                                     "online_price": 45.49,
                                     "vat_exemption": false
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "DPD",
+            "id": "dpd",
+            "services": [
+                {
+                    "service": "Standard",
+                    "country": "worldwide",
+                    "shipping_time_days": {
+                        "DEFAULT": {
+                            "min": 1,
+                            "max": 2
+                        }
+                    },
+                    "rates": [
+                        {
+                            "name": "XS - Shop2Shop",
+                            "max_weight": 20000,
+                            "max_dimensions": {
+                                "shortest_longest_side_max": 35
+                            },
+                            "pickup_at_home": false,
+                            "rate": [
+                                {
+                                    "countries": ["DE"],
+                                    "online_price": 3.29
+                                }
+                            ]
+                        },
+                        {
+                            "name": "S - Shop2Shop",
+                            "max_weight": 20000,
+                            "max_dimensions": {
+                                "shortest_longest_side_max": 50
+                            },
+                            "pickup_at_home": false,
+                            "rate": [
+                                {
+                                    "countries": ["DE"],
+                                    "online_price": 3.79
+                                }
+                            ]
+                        },
+                        {
+                            "name": "M - Shop2Shop",
+                            "max_weight": 20000,
+                            "max_dimensions": {
+                                "shortest_longest_side_max": 70
+                            },
+                            "pickup_at_home": false,
+                            "rate": [
+                                {
+                                    "countries": ["DE"],
+                                    "online_price": 5.19
+                                }
+                            ]
+                        },
+                        {
+                            "name": "L - Shop2Shop",
+                            "max_weight": 20000,
+                            "max_dimensions": {
+                                "shortest_longest_side_max": 90
+                            },
+                            "pickup_at_home": false,
+                            "rate": [
+                                {
+                                    "countries": ["DE"],
+                                    "online_price": 9.69
+                                }
+                            ]
+                        },
+                        {
+                            "name": "XS - Classic",
+                            "max_weight": 20000,
+                            "max_dimensions": {
+                                "shortest_longest_side_max": 35
+                            },
+                            "pickup_at_home": false,
+                            "rate": [
+                                {
+                                    "countries": ["DE"],
+                                    "online_price": 4.39
+                                },
+                                {
+                                    "countries": ["BE", "DK", "LU", "NL", "AT", "SK", "SI", "CZ", "PL", "HU"],
+                                    "online_price": 9.90
+                                },
+                                {
+                                    "countries": ["FR", "EE", "HR", "LT", "MC", "PT", "SE", "ES"],
+                                    "online_price": 12.90
+                                },
+                                {
+                                    "countries": ["BG", "FI", "GR", "IE", "RO"],
+                                    "online_price": 35.00
+                                }
+                            ]
+                        },
+                        {
+                            "name": "S - Classic",
+                            "max_weight": 20000,
+                            "max_dimensions": {
+                                "shortest_longest_side_max": 50
+                            },
+                            "pickup_at_home": false,
+                            "rate": [
+                                {
+                                    "countries": ["DE"],
+                                    "online_price": 4.99
+                                },
+                                {
+                                    "countries": ["BE", "DK", "LU", "NL", "AT", "SK", "SI", "CZ", "PL", "HU"],
+                                    "online_price": 12.00
+                                },
+                                {
+                                    "countries": ["FR", "EE", "HR", "LT", "MC", "PT", "SE", "ES"],
+                                    "online_price": 15.10
+                                },
+                                {
+                                    "countries": ["BG", "FI", "GR", "IE", "RO"],
+                                    "online_price": 38.00
+                                }
+                            ]
+                        },
+                        {
+                            "name": "M - Classic",
+                            "max_weight": 20000,
+                            "max_dimensions": {
+                                "shortest_longest_side_max": 70
+                            },
+                            "pickup_at_home": false,
+                            "rate": [
+                                {
+                                    "countries": ["DE"],
+                                    "online_price": 6.40
+                                },
+                                {
+                                    "countries": ["BE", "DK", "LU", "NL", "AT", "SK", "SI", "CZ", "PL", "HU"],
+                                    "online_price": 15.80
+                                },
+                                {
+                                    "countries": ["FR", "EE", "HR", "LT", "MC", "PT", "SE", "ES"],
+                                    "online_price": 18.80
+                                },
+                                {
+                                    "countries": ["BG", "FI", "GR", "IE", "RO"],
+                                    "online_price": 43.80
+                                }
+                            ]
+                        },
+                        {
+                            "name": "L - Classic",
+                            "max_weight": 20000,
+                            "max_dimensions": {
+                                "shortest_longest_side_max": 90
+                            },
+                            "pickup_at_home": false,
+                            "rate": [
+                                {
+                                    "countries": ["DE"],
+                                    "online_price": 9.90
+                                },
+                                {
+                                    "countries": ["BE", "DK", "LU", "NL", "AT", "SK", "SI", "CZ", "PL", "HU"],
+                                    "online_price": 19.00
+                                },
+                                {
+                                    "countries": ["FR", "EE", "HR", "LT", "MC", "PT", "SE", "ES"],
+                                    "online_price": 23.00
+                                },
+                                {
+                                    "countries": ["BG", "FI", "GR", "IE", "RO"],
+                                    "online_price": 56.00
                                 }
                             ]
                         }
@@ -265,7 +473,8 @@
     ],
     "FR": [
         {
-            "provider": "La Poste",
+            "name": "La Poste",
+            "id": "la_poste",
             "services": [
                 {
                     "service": "Standard",
