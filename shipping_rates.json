@@ -1,0 +1,355 @@
+{
+    "DE": [
+        {
+            "provider": "DHL",
+            "services": [
+                {
+                    "service": "Express",
+                    "country": "worldwide",
+                    "shipping_time_days": {
+                        "DEFAULT": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    },
+                    "rates": [
+                        {
+                            "name": "0.5 Kg",
+                            "max_weight": 500,
+                            "max_dimensions": {
+                                "length": 35,
+                                "width": 25,
+                                "height": 3
+                            },
+                            "tracking_included": true,
+                            "rate": [
+                                {
+                                    "countries": ["DE"],
+                                    "online_price": 12.00,
+                                    "liability": 500
+                                },
+                                {
+                                    "countries": ["FR"],
+                                    "online_price": 54.30
+                                },
+                                {
+                                    "countries": ["PT"],
+                                    "online_price": 60.70
+                                }
+                            ]
+                        },
+                        {
+                            "name": "1 Kg",
+                            "max_weight": 1000,
+                            "max_dimensions": {
+                                "length": 35,
+                                "width": 25,
+                                "height": 10
+                            },
+                            "tracking_included": true,
+                            "rate": [
+                                {
+                                    "countries": ["FR"],
+                                    "online_price": 55.90
+                                },
+                                {
+                                    "countries": ["PT"],
+                                    "online_price": 62.60
+                                }
+                            ]
+                        },
+                        {
+                            "name": "2 Kg",
+                            "max_weight": 2000,
+                            "max_dimensions": {
+                                "length": 35,
+                                "width": 25,
+                                "height": 10
+                            },
+                            "tracking_included": true,
+                            "rate": [
+                                {
+                                    "countries": ["DE"],
+                                    "online_price": 15.00,
+                                    "liability": 500
+                                },
+                                {
+                                    "countries": ["FR"],
+                                    "online_price": 58.80
+                                }
+                            ]
+                        },
+                        {
+                            "name": "5 Kg",
+                            "max_weight": 5000,
+                            "max_dimensions": {
+                                "length": 60,
+                                "width": 30,
+                                "height": 15
+                            },
+                            "tracking_included": true,
+                            "rate": [
+                                {
+                                    "countries": ["DE"],
+                                    "online_price": 16.00,
+                                    "liability": 500
+                                },
+                                {
+                                    "countries": ["FR"],
+                                    "online_price": 67.80
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "service": "Standard",
+                    "country": "worldwide",
+                    "shipping_time_days": {
+                        "DEFAULT": {
+                            "min": 1,
+                            "max": 2
+                        },
+                        "FR": {
+                            "min": 2,
+                            "max": 3
+                        },
+                        "PT": {
+                            "min": 3,
+                            "max": 5
+                        }
+                    },
+                    "rates": [
+                        {
+                            "name": "2 kg - Päckchen XS",
+                            "max_weight": 2000,
+                            "max_dimensions": {
+                                "length": 35,
+                                "width": 25,
+                                "height": 3
+                            },
+                            "insurance_included": false,
+                            "insurance_optional": [
+                                {
+                                    "online_price": 2.50,
+                                    "insurance_amount": 50
+                                }
+                            ],
+                            "tracking_included": false,
+                            "rate": [
+                                {
+                                    "countries": ["DE", "AT", "BE", "DK", "LU", "NL", "PL", "CZ", "SK", "SI", "FI", "SE", "EE", "LV", "LT", "HR", "BG", "RO", "HU", "MT", "CY", "IE", "PT", "ES", "FR", "IT"],
+                                    "online_price": 6.49
+                                }
+                            ],
+                            "vat_exemption": true,
+                            "vat_exemption_text": "The postage for small packages and parcels weighing between 2 and 20 kg is exempt from VAT under German law (UStG)."
+                        },
+                        {
+                            "name": "2 kg - Päckchen M",
+                            "max_weight": 2000,
+                            "max_dimensions": {
+                                "length_width_height_max": 90,
+                                "longest_side_max": 60
+                            },
+                            "insurance_included": false,
+                            "insurance_optional": [
+                                {
+                                    "online_price": 2.50,
+                                    "insurance_amount": 50
+                                }
+                            ],
+                            "tracking_included": false,
+                            "rate": [
+                                {
+                                    "countries": ["DE", "AT", "BE", "DK", "LU", "NL", "PL", "CZ", "SK", "SI", "FI", "SE", "EE", "LV", "LT", "HR", "BG", "RO", "HU", "MT", "CY", "IE", "PT", "ES", "FR", "IT"],
+                                    "online_price": 10.49
+                                }
+                            ]
+                        },
+                        {
+                            "name": "2 kg - Paket",
+                            "max_weight": 2000,
+                            "max_dimensions": {
+                                "length": 60,
+                                "width": 30,
+                                "height": 15
+                            },
+                            "insurance_included": true,
+                            "insurance_amount": 500,
+                            "tracking_included": true,
+                            "rate": [
+                                {
+                                    "countries": ["DE", "AT", "BE", "DK", "LU", "NL", "PL", "CZ", "SK", "SI", "FI", "SE", "EE", "LV", "LT", "HR", "BG", "RO", "HU", "MT", "CY", "IE", "PT", "ES", "FR", "IT"],
+                                    "online_price": 14.49
+                                }
+                            ]
+                        },
+                        {
+                            "name": "5 kg - Paket",
+                            "max_weight": 5000,
+                            "max_dimensions": {
+                                "length": 120,
+                                "width": 60,
+                                "height": 60
+                            },
+                            "insurance_included": true,
+                            "insurance_amount": 500,
+                            "tracking_included": true,
+                            "rate": [
+                                {
+                                    "countries": ["DE", "AT", "BE", "DK", "LU", "NL", "PL", "CZ", "SK", "SI", "FI", "SE", "EE", "LV", "LT", "HR", "BG", "RO", "HU", "MT", "CY", "IE", "PT", "ES", "FR", "IT"],
+                                    "online_price": 16.49
+                                }
+                            ]
+                        },
+                        {
+                            "name": "10 kg - Paket",
+                            "max_weight": 10000,
+                            "max_dimensions": {
+                                "length": 120,
+                                "width": 60,
+                                "height": 60
+                            },
+                            "insurance_included": true,
+                            "insurance_amount": 500,
+                            "tracking_included": true,
+                            "rate": [
+                                {
+                                    "countries": ["DE", "AT", "BE", "DK", "LU", "NL", "PL", "CZ", "SK", "SI", "FI", "SE", "EE", "LV", "LT", "HR", "BG", "RO", "HU", "MT", "CY", "IE", "PT", "ES", "FR", "IT"],
+                                    "online_price": 21.49
+                                }
+                            ]
+                        },
+                        {
+                            "name": "20 kg - Paket",
+                            "max_weight": 20000,
+                            "max_dimensions": {
+                                "length": 120,
+                                "width": 60,
+                                "height": 60
+                            },
+                            "insurance_included": true,
+                            "insurance_amount": 500,
+                            "tracking_included": true,
+                            "rate": [
+                                {
+                                    "countries": ["DE", "AT", "BE", "DK", "LU", "NL", "PL", "CZ", "SK", "SI", "FI", "SE", "EE", "LV", "LT", "HR", "BG", "RO", "HU", "MT", "CY", "IE", "PT", "ES", "FR", "IT"],
+                                    "online_price": 27.30
+                                }
+                            ]
+                        },
+                        {
+                            "name": "31.5 kg - Paket",
+                            "max_weight": 31500,
+                            "max_dimensions": {
+                                "length": 120,
+                                "width": 60,
+                                "height": 60
+                            },
+                            "insurance_included": true,
+                            "insurance_amount": 500,
+                            "tracking_included": true,
+                            "rate": [
+                                {
+                                    "countries": ["DE", "AT", "BE", "DK", "LU", "NL", "PL", "CZ", "SK", "SI", "FI", "SE", "EE", "LV", "LT", "HR", "BG", "RO", "HU", "MT", "CY", "IE", "PT", "ES", "FR", "IT"],
+                                    "online_price": 45.49,
+                                    "vat_exemption": false
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "FR": [
+        {
+            "provider": "La Poste",
+            "services": [
+                {
+                    "service": "Standard",
+                    "country": "worldwide",
+                    "shipping_time_days": {
+                        "DEFAULT": {
+                            "min": 2,
+                            "max": 3
+                        }
+                    },
+                    "rates": [
+                        {
+                            "name": "1 kg - Paket",
+                            "max_weight": 1000,
+                            "max_dimensions": {
+                                "length_width_height_max": 150,
+                                "longest_side_max": 100
+                            },
+                            "rate": [
+                                {
+                                    "countries": ["DE", "AT", "BE", "DK", "LU", "NL", "PL", "CZ", "SK", "SI", "FI", "SE", "EE", "LV", "LT", "HR", "BG", "RO", "HU", "MT", "CY", "IE", "PT", "ES", "FR", "IT"],
+                                    "online_price": 17.60
+                                }
+                            ]
+                        },
+                        {
+                            "name": "2 kg - Paket",
+                            "max_weight": 2000,
+                            "max_dimensions": {
+                                "length_width_height_max": 150,
+                                "longest_side_max": 100
+                            },
+                            "rate": [
+                                {
+                                    "countries": ["DE", "AT", "BE", "DK", "LU", "NL", "PL", "CZ", "SK", "SI", "FI", "SE", "EE", "LV", "LT", "HR", "BG", "RO", "HU", "MT", "CY", "IE", "PT", "ES", "FR", "IT"],
+                                    "online_price": 19.95
+                                }
+                            ]
+                        },
+                        {
+                            "name": "5 kg - Paket",
+                            "max_weight": 5000,
+                            "max_dimensions": {
+                                "length_width_height_max": 150,
+                                "longest_side_max": 100
+                            },
+                            "rate": [
+                                {
+                                    "countries": ["DE", "AT", "BE", "DK", "LU", "NL", "PL", "CZ", "SK", "SI", "FI", "SE", "EE", "LV", "LT", "HR", "BG", "RO", "HU", "MT", "CY", "IE", "PT", "ES", "FR", "IT"],
+                                    "online_price": 25.50
+                                }
+                            ]
+                        },
+                        {
+                            "name": "10 kg - Paket",
+                            "max_weight": 10000,
+                            "max_dimensions": {
+                                "length_width_height_max": 150,
+                                "longest_side_max": 100
+                            },
+                            "rate": [
+                                {
+                                    "countries": ["DE", "AT", "BE", "DK", "LU", "NL", "PL", "CZ", "SK", "SI", "FI", "SE", "EE", "LV", "LT", "HR", "BG", "RO", "HU", "MT", "CY", "IE", "PT", "ES", "FR", "IT"],
+                                    "online_price": 42.05
+                                }
+                            ]
+                        },
+                        {
+                            "name": "30 kg - Paket",
+                            "max_weight": 30000,
+                            "max_dimensions": {
+                                "length_width_height_max": 150,
+                                "longest_side_max": 100
+                            },
+                            "rate": [
+                                {
+                                    "countries": ["DE", "AT", "BE", "DK", "LU", "NL", "PL", "CZ", "SK", "SI", "FI", "SE", "EE", "LV", "LT", "HR", "BG", "RO", "HU", "MT", "CY", "IE", "PT", "ES", "FR", "IT"],
+                                    "online_price": 80.05
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
