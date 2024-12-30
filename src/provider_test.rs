@@ -12,16 +12,10 @@ fn setup() -> ShippingDatabase {
 
 #[test]
 fn test_dhl_express_1kg_to_france() {
-   let db = setup();
+    let db = setup();
     let query = ShippingRateQuery {
-        source_region: Region {
-            country: "DE".to_string(),
-            region: None,
-        },
-        destination_region: Region {
-            country: "FR".to_string(),
-            region: None,
-        },
+        source_region: Region::new("DE".to_string(), None).expect("Country code to be valid"),
+        destination_region: Region::new("FR".to_string(), None).expect("Country code to be valid"),
         items: vec![ShippingItem {
             identifier: "test_item".to_string(),
             weight: Some(900),
@@ -43,14 +37,8 @@ fn test_dhl_express_1kg_to_france() {
 fn test_dpd_standard_germany_to_france() {
     let db = setup();
     let query = ShippingRateQuery {
-        source_region: Region {
-            country: "DE".to_string(),
-            region: None,
-        },
-        destination_region: Region {
-            country: "FR".to_string(),
-            region: None,
-        },
+        source_region: Region::new("DE".to_string(), None).expect("Country code to be valid"),
+        destination_region: Region::new("FR".to_string(), None).expect("Country code to be valid"),
         items: vec![ShippingItem {
             identifier: "small_package".to_string(),
             weight: Some(1500),
@@ -68,16 +56,10 @@ fn test_dpd_standard_germany_to_france() {
 
 #[test]
 fn test_dhl_standard_2kg_to_france() {
-   let db = setup();
+    let db = setup();
     let query = ShippingRateQuery {
-        source_region: Region {
-            country: "DE".to_string(),
-            region: None,
-        },
-        destination_region: Region {
-            country: "FR".to_string(),
-            region: None,
-        },
+        source_region: Region::new("DE".to_string(), None).expect("Country code to be valid"),
+        destination_region: Region::new("FR".to_string(), None).expect("Country code to be valid"),
         items: vec![ShippingItem {
             identifier: "small_package".to_string(),
             weight: Some(1500),
@@ -98,16 +80,10 @@ fn test_dhl_standard_2kg_to_france() {
 
 #[test]
 fn test_package_too_heavy() {
-   let db = setup();
+    let db = setup();
     let query = ShippingRateQuery {
-        source_region: Region {
-            country: "DE".to_string(),
-            region: None,
-        },
-        destination_region: Region {
-            country: "FR".to_string(),
-            region: None,
-        },
+        source_region: Region::new("DE".to_string(), None).expect("Country code to be valid"),
+        destination_region: Region::new("FR".to_string(), None).expect("Country code to be valid"),
         items: vec![ShippingItem {
             identifier: "heavy_package".to_string(),
             weight: Some(35000), // 35kg
@@ -125,16 +101,10 @@ fn test_package_too_heavy() {
 
 #[test]
 fn test_package_dimensions_check() {
-   let db = setup();
+    let db = setup();
     let query = ShippingRateQuery {
-        source_region: Region {
-            country: "DE".to_string(),
-            region: None,
-        },
-        destination_region: Region {
-            country: "FR".to_string(),
-            region: None,
-        },
+        source_region: Region::new("DE".to_string(), None).expect("Country code to be valid"),
+        destination_region: Region::new("FR".to_string(), None).expect("Country code to be valid"),
         items: vec![ShippingItem {
             identifier: "large_package".to_string(),
             weight: Some(1000),
@@ -152,16 +122,10 @@ fn test_package_dimensions_check() {
 
 #[test]
 fn test_multiple_items() {
-   let db = setup();
+    let db = setup();
     let query = ShippingRateQuery {
-        source_region: Region {
-            country: "DE".to_string(),
-            region: None,
-        },
-        destination_region: Region {
-            country: "FR".to_string(),
-            region: None,
-        },
+        source_region: Region::new("DE".to_string(), None).expect("Country code to be valid"),
+        destination_region: Region::new("FR".to_string(), None).expect("Country code to be valid"),
         items: vec![
             ShippingItem {
                 identifier: "small_item".to_string(),
@@ -188,16 +152,10 @@ fn test_multiple_items() {
 
 #[test]
 fn test_get_best_rates() {
-   let db = setup();
+    let db = setup();
     let query = ShippingRateQuery {
-        source_region: Region {
-            country: "DE".to_string(),
-            region: None,
-        },
-        destination_region: Region {
-            country: "FR".to_string(),
-            region: None,
-        },
+        source_region: Region::new("DE".to_string(), None).expect("Country code to be valid"),
+        destination_region: Region::new("FR".to_string(), None).expect("Country code to be valid"),
         items: vec![
             ShippingItem {
                 identifier: "item1".to_string(),
@@ -219,16 +177,10 @@ fn test_get_best_rates() {
 
 #[test]
 fn test_get_total_shipping_cost() {
-   let db = setup();
+    let db = setup();
     let query = ShippingRateQuery {
-        source_region: Region {
-            country: "DE".to_string(),
-            region: None,
-        },
-        destination_region: Region {
-            country: "FR".to_string(),
-            region: None,
-        },
+        source_region: Region::new("DE".to_string(), None).expect("Country code to be valid"),
+        destination_region: Region::new("FR".to_string(), None).expect("Country code to be valid"),
         items: vec![
             ShippingItem {
                 identifier: "item1".to_string(),
@@ -255,16 +207,10 @@ fn test_get_total_shipping_cost() {
 
 #[test]
 fn test_get_best_rates_express() {
-   let db = setup();
+    let db = setup();
     let query = ShippingRateQuery {
-        source_region: Region {
-            country: "DE".to_string(),
-            region: None,
-        },
-        destination_region: Region {
-            country: "FR".to_string(),
-            region: None,
-        },
+        source_region: Region::new("DE".to_string(), None).expect("Country code to be valid"),
+        destination_region: Region::new("FR".to_string(), None).expect("Country code to be valid"),
         items: vec![
             ShippingItem {
                 identifier: "express_item".to_string(),

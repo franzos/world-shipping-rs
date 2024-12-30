@@ -1,5 +1,7 @@
+use crate::errors::InputValidationError;
+use log::debug;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use serde::{Serialize, Deserialize};
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Clone)]
 pub enum Provider {
@@ -97,4 +99,32 @@ pub struct Rate {
 pub struct Region {
     pub country: String,
     pub region: Option<String>,
+}
+
+impl Region {
+    pub fn new(country: String, region: Option<String>) -> Result<Self, InputValidationError> {
+        Self::validate(&country, &region)?;
+        Ok(Self { country, region })
+    }
+
+    fn validate(country: &str, region: &Option<String>) -> Result<(), InputValidationError> {
+        let country_info = rust_iso3166::from_alpha2(country)
+            .ok_or_else(|| InputValidationError::InvalidCountryCode(country.to_string()))?;
+
+        debug!("Found country: {}", country_info.name);
+
+        if let Some(region_code) = region {
+            let _ = country_info
+                .subdivisions()
+                .ok_or_else(|| InputValidationError::UnexpectedRegionCode(region_code.clone()))?;
+
+            let country_region_code = format!("{}-{}", country, region_code);
+            let region = rust_iso3166::iso3166_2::from_code(&country_region_code)
+                .ok_or_else(|| InputValidationError::InvalidRegionCode(region_code.clone()))?;
+
+            debug!("Found region: {}", region.name);
+        }
+
+        Ok(())
+    }
 }
