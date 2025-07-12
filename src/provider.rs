@@ -1,10 +1,13 @@
 use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
+use typeshare::typeshare;
 
 use crate::types::{Dimensions, Provider, ProviderInfo, RateInfo, Region, ServiceInfo, ServiceLevel};
 use super::types::Rate;
 
 // Item to be shipped
+#[typeshare]
+#[derive(Debug, Clone,  Serialize, Deserialize)]
 pub struct ShippingItem {
     pub identifier: String,
     pub weight: Option<u32>,
@@ -185,6 +188,8 @@ impl ShippingItem {
 }
 
 // Query to get shipping rates
+#[typeshare]
+#[derive(Debug, Clone,  Serialize, Deserialize)]
 pub struct ShippingRateQuery {
     pub source_region: Region,
     pub destination_region: Region,
@@ -193,6 +198,7 @@ pub struct ShippingRateQuery {
     pub service_level: Option<ServiceLevel>,
 }
 
+#[typeshare]
 #[derive(Debug, Clone,  Serialize, Deserialize)]
 pub struct ApplicableService {
     pub provider: ProviderInfo,
@@ -201,18 +207,23 @@ pub struct ApplicableService {
     pub rate: Rate,
 }
 
+#[typeshare]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ShippingRateItemResult {
     pub item_identifier: String,
     pub applicable_services: Vec<ApplicableService>,
 }
 
+#[typeshare]
+#[derive(Debug, Clone,  Serialize, Deserialize)]
 pub struct ShippingRateQueryResult {
     pub items: Vec<ShippingRateItemResult>,
     pub total_cost: f64,
 }
 
 // String = Country code
+#[typeshare]
+#[derive(Debug, Clone,  Serialize, Deserialize)]
 pub struct ShippingDatabase {
     countries: HashMap<String, Vec<ProviderInfo>>,
 }

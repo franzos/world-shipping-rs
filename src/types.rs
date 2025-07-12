@@ -2,7 +2,9 @@ use crate::errors::InputValidationError;
 use log::debug;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use typeshare::typeshare;
 
+#[typeshare]
 #[derive(Debug, Serialize, Deserialize, PartialEq, Clone)]
 pub enum Provider {
     #[serde(rename = "ups")]
@@ -20,6 +22,7 @@ pub enum Provider {
 }
 
 // String = Carrier service level
+#[typeshare]
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct ProviderInfo {
     pub name: String,
@@ -27,12 +30,14 @@ pub struct ProviderInfo {
     pub services: Vec<ServiceInfo>,
 }
 
+#[typeshare]
 #[derive(Debug, Serialize, Deserialize, PartialEq, Clone)]
 pub enum ServiceLevel {
     Standard,
     Express,
 }
 
+#[typeshare]
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct ServiceInfo {
     pub service: ServiceLevel,
@@ -44,12 +49,14 @@ pub struct ServiceInfo {
     pub rates: Vec<RateInfo>,
 }
 
+#[typeshare]
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct ShippingTime {
     pub min: u8,
     pub max: u8,
 }
 
+#[typeshare]
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct RateInfo {
     pub name: String,
@@ -71,6 +78,7 @@ pub struct RateInfo {
     pub vat_exemption_text: Option<String>,
 }
 
+#[typeshare]
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Dimensions {
     pub length: Option<u32>,
@@ -81,12 +89,14 @@ pub struct Dimensions {
     pub shortest_longest_side_max: Option<u32>,
 }
 
+#[typeshare]
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct InsuranceOption {
     pub online_price: f64,
     pub insurance_amount: u32,
 }
 
+#[typeshare]
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Rate {
     pub countries: Vec<String>,
@@ -95,7 +105,8 @@ pub struct Rate {
     pub vat_exemption: bool,
 }
 
-#[derive(Debug, Clone)]
+#[typeshare]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Region {
     pub country: String,
     pub region: Option<String>,

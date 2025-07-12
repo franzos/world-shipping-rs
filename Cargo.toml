@@ -1,13 +1,13 @@
 [package]
 name = "world-shipping"
-version = "0.1.1"
+version = "0.2.0"
 edition = "2021"
 license = "MIT"
 description = "A simple shipping calculator"
 homepage = "https://github.com/franzos/world-tax-rs"
 repository = "https://github.com/franzos/world-tax-rs"
 readme = "README.md"
-authors = ["Franz Geffke <m@f-a.nz>"]
+authors = ["Franz Geffke <mail@gofranz.com>"]
 
 [dependencies]
 serde = { version = "1.0.216", features = ["derive"] }
@@ -17,3 +17,4 @@ log = "0.4"
 env_logger = "0.11"
 rust_iso3166 = "0.1.13"
 thiserror = "2.0.9"
+typeshare = "1.0.4"

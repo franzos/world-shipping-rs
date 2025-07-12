@@ -56,6 +56,16 @@ The available providers and service levels, depend on the country of origin.
 
 If you are shipping from Germany, or France, this package will have some use for you; Otherwise, feel free to add more countries, providers and service levels to the JSON file and submit a PR.
 
+### TypeScript Types
+
+Generate TypeScript types using [typeshare](https://1password.github.io/typeshare/):
+
+```bash
+cargo install typeshare-cli
+typeshare . --lang=typescript --output-file=types.ts
+```
+
+
 ## Test
 
 ```bash
