@@ -1,13 +1,15 @@
 [package]
 name = "world-shipping"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 license = "MIT"
 description = "A simple shipping calculator"
-homepage = "https://github.com/franzos/world-tax-rs"
+homepage = "https://gofranz.com/"
 repository = "https://github.com/franzos/world-tax-rs"
 readme = "README.md"
 authors = ["Franz Geffke <mail@gofranz.com>"]
+keywords = ["shipping"]
+categories = ["trade"]
 
 [dependencies]
 serde = { version = "1.0.219", features = ["derive"] }
