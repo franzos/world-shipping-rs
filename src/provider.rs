@@ -1,13 +1,15 @@
-use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use typeshare::typeshare;
 
-use crate::types::{Dimensions, Provider, ProviderInfo, RateInfo, Region, ServiceInfo, ServiceLevel};
 use super::types::Rate;
+use crate::types::{
+    Dimensions, Provider, ProviderInfo, RateInfo, Region, ServiceInfo, ServiceLevel,
+};
 
 // Item to be shipped
 #[typeshare]
-#[derive(Debug, Clone,  Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ShippingItem {
     pub identifier: String,
     pub weight: Option<u32>,
@@ -84,7 +86,10 @@ impl ShippingItem {
         }
         None
     }
-    fn is_smaller_or_equal_length_with_height_max(&self, length_width_height_max: Option<u32>) -> bool {
+    fn is_smaller_or_equal_length_with_height_max(
+        &self,
+        length_width_height_max: Option<u32>,
+    ) -> bool {
         if let Some(length_width_height_max) = length_width_height_max {
             // let longest_side = self.longest_side();
             if let Some(longest_side) = self.length_width_height() {
@@ -109,7 +114,10 @@ impl ShippingItem {
         }
         false
     }
-    fn is_smaller_or_equal_shortest_longest_side_max(&self, shortest_longest_side_max: Option<u32>) -> bool {
+    fn is_smaller_or_equal_shortest_longest_side_max(
+        &self,
+        shortest_longest_side_max: Option<u32>,
+    ) -> bool {
         if let Some(shortest_longest_side_max) = shortest_longest_side_max {
             if let Some(longest_side) = self.shortest_longest_side() {
                 if longest_side <= shortest_longest_side_max {
@@ -173,13 +181,27 @@ impl ShippingItem {
             return false;
         }
         if rate_info.max_dimensions.is_some() {
-            if !self.is_smaller_or_equal_length_with_height_max(rate_info.clone().max_dimensions.unwrap().length_width_height_max) {
+            if !self.is_smaller_or_equal_length_with_height_max(
+                rate_info
+                    .clone()
+                    .max_dimensions
+                    .unwrap()
+                    .length_width_height_max,
+            ) {
                 return false;
             }
-            if !self.is_smaller_or_equal_longest_side_max(rate_info.clone().max_dimensions.unwrap().longest_side_max) {
+            if !self.is_smaller_or_equal_longest_side_max(
+                rate_info.clone().max_dimensions.unwrap().longest_side_max,
+            ) {
                 return false;
             }
-            if !self.is_smaller_or_equal_shortest_longest_side_max(rate_info.clone().max_dimensions.unwrap().shortest_longest_side_max) {
+            if !self.is_smaller_or_equal_shortest_longest_side_max(
+                rate_info
+                    .clone()
+                    .max_dimensions
+                    .unwrap()
+                    .shortest_longest_side_max,
+            ) {
                 return false;
             }
         }
@@ -189,7 +211,7 @@ impl ShippingItem {
 
 // Query to get shipping rates
 #[typeshare]
-#[derive(Debug, Clone,  Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ShippingRateQuery {
     pub source_region: Region,
     pub destination_region: Region,
@@ -199,7 +221,7 @@ pub struct ShippingRateQuery {
 }
 
 #[typeshare]
-#[derive(Debug, Clone,  Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ApplicableService {
     pub provider: ProviderInfo,
     pub service: ServiceInfo,
@@ -215,7 +237,7 @@ pub struct ShippingRateItemResult {
 }
 
 #[typeshare]
-#[derive(Debug, Clone,  Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ShippingRateQueryResult {
     pub items: Vec<ShippingRateItemResult>,
     pub total_cost: f64,
@@ -223,7 +245,7 @@ pub struct ShippingRateQueryResult {
 
 // String = Country code
 #[typeshare]
-#[derive(Debug, Clone,  Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ShippingDatabase {
     countries: HashMap<String, Vec<ProviderInfo>>,
 }
@@ -241,7 +263,11 @@ impl ShippingDatabase {
         self.countries.get(country_code)
     }
 
-    fn filter_by_provider(&self, providers: &Vec<ProviderInfo>, provider: Option<Provider>) -> Option<Vec<ProviderInfo>> {
+    fn filter_by_provider(
+        &self,
+        providers: &Vec<ProviderInfo>,
+        provider: Option<Provider>,
+    ) -> Option<Vec<ProviderInfo>> {
         if let Some(provider) = provider {
             let mut filtered_providers = Vec::new();
             for provider_info in providers {
@@ -256,8 +282,12 @@ impl ShippingDatabase {
         }
         Some(providers.clone())
     }
-    
-    fn filter_provider_by_service_level(&self, providers: &Vec<ProviderInfo>, service_level: Option<ServiceLevel>) -> Option<Vec<ProviderInfo>> {
+
+    fn filter_provider_by_service_level(
+        &self,
+        providers: &Vec<ProviderInfo>,
+        service_level: Option<ServiceLevel>,
+    ) -> Option<Vec<ProviderInfo>> {
         if let Some(service_level) = service_level {
             let mut filtered_providers = Vec::new();
             for provider in providers {
@@ -280,13 +310,14 @@ impl ShippingDatabase {
             }
         } else {
             Some(providers.clone())
-        }  
+        }
     }
 
     fn match_rate_country(&self, rate: &Vec<Rate>, destination: &Region) -> Option<Rate> {
         for rate in rate {
             for country in &rate.countries {
-                if country == &destination.country {  // Add & to compare references
+                if country == &destination.country {
+                    // Add & to compare references
                     return Some(rate.clone());
                 }
             }
@@ -294,13 +325,19 @@ impl ShippingDatabase {
         None
     }
 
-    fn match_services_with_shipping_item(&self, providers: &Vec<ProviderInfo>, item: &ShippingItem, destination: &Region) -> Option<Vec<ApplicableService>> {
+    fn match_services_with_shipping_item(
+        &self,
+        providers: &Vec<ProviderInfo>,
+        item: &ShippingItem,
+        destination: &Region,
+    ) -> Option<Vec<ApplicableService>> {
         let mut applicable_services = Vec::new();
         for provider in providers {
             for service in &provider.services {
                 for rate_info in &service.rates {
                     if item.is_rate_match(rate_info) {
-                        let rate_country_match = self.match_rate_country(&rate_info.rate, destination);
+                        let rate_country_match =
+                            self.match_rate_country(&rate_info.rate, destination);
                         if rate_country_match.is_none() {
                             continue;
                         }
@@ -314,7 +351,7 @@ impl ShippingDatabase {
                 }
             }
         }
-        
+
         if applicable_services.is_empty() {
             return None;
         }
@@ -322,14 +359,22 @@ impl ShippingDatabase {
         Some(applicable_services)
     }
 
-    pub fn get_rates(&self, query: &ShippingRateQuery) -> Result<Vec<ShippingRateItemResult>, Box<dyn std::error::Error>> {
+    pub fn get_rates(
+        &self,
+        query: &ShippingRateQuery,
+    ) -> Result<Vec<ShippingRateItemResult>, Box<dyn std::error::Error>> {
         // 1. Get the country services for the source country
-        let providers = self.get_country_services(&query.source_region.country).ok_or("Country not found")?;
+        let providers = self
+            .get_country_services(&query.source_region.country)
+            .ok_or("Country not found")?;
         let filtered_by_provider = self.filter_by_provider(providers, query.provider.clone());
         if filtered_by_provider.is_none() {
             return Err("No providers found".into());
         }
-        let filtered_by_service_level = self.filter_provider_by_service_level(&filtered_by_provider.unwrap(), query.service_level.clone());
+        let filtered_by_service_level = self.filter_provider_by_service_level(
+            &filtered_by_provider.unwrap(),
+            query.service_level.clone(),
+        );
         if filtered_by_service_level.is_none() {
             return Err("No providers found".into());
         }
@@ -337,7 +382,11 @@ impl ShippingDatabase {
         let mut results = Vec::new();
 
         for item in &query.items {
-            let applicable_services = self.match_services_with_shipping_item(&filtered_by_service_level.clone().unwrap(), item, &query.destination_region);
+            let applicable_services = self.match_services_with_shipping_item(
+                &filtered_by_service_level.clone().unwrap(),
+                item,
+                &query.destination_region,
+            );
             if applicable_services.is_none() {
                 continue;
             }
@@ -351,7 +400,10 @@ impl ShippingDatabase {
         Ok(results)
     }
 
-    pub fn get_best_rates(&self, query: &ShippingRateQuery) -> Result<Vec<ShippingRateItemResult>, Box<dyn std::error::Error>> {
+    pub fn get_best_rates(
+        &self,
+        query: &ShippingRateQuery,
+    ) -> Result<Vec<ShippingRateItemResult>, Box<dyn std::error::Error>> {
         // 1. Get the country services for the source country
         let mut results = self.get_rates(query)?;
 
@@ -359,11 +411,12 @@ impl ShippingDatabase {
         for result in &mut results {
             result.applicable_services.sort_by(|a, b| {
                 // Use partial_cmp for floating point numbers
-                a.rate.online_price
+                a.rate
+                    .online_price
                     .partial_cmp(&b.rate.online_price)
                     .unwrap_or(std::cmp::Ordering::Equal)
             });
-            
+
             best_results.push(ShippingRateItemResult {
                 item_identifier: result.item_identifier.clone(),
                 applicable_services: vec![result.applicable_services[0].clone()],
@@ -373,7 +426,10 @@ impl ShippingDatabase {
         Ok(best_results)
     }
 
-    pub fn get_total_shipping_cost(&self, query: &ShippingRateQuery) -> Result<f64, Box<dyn std::error::Error>> {
+    pub fn get_total_shipping_cost(
+        &self,
+        query: &ShippingRateQuery,
+    ) -> Result<f64, Box<dyn std::error::Error>> {
         let mut total_cost = 0.0;
         let best_rates = self.get_best_rates(query)?;
         for result in best_rates {
@@ -383,5 +439,4 @@ impl ShippingDatabase {
         }
         Ok(total_cost)
     }
-
 }

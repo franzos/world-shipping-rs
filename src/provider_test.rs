@@ -1,10 +1,10 @@
-use crate::provider::{ShippingDatabase, ShippingRateQuery, ShippingItem};
+use crate::provider::{ShippingDatabase, ShippingItem, ShippingRateQuery};
 use crate::types::{Provider, Region, ServiceLevel};
 
 fn setup() -> ShippingDatabase {
     let _ = env_logger::builder()
         .is_test(true)
-        .filter_level(log::LevelFilter::Debug)  // Set to Debug level
+        .filter_level(log::LevelFilter::Debug) // Set to Debug level
         .try_init();
     ShippingDatabase::from_file("shipping_rates.json").unwrap()
 }
@@ -25,7 +25,7 @@ fn test_dhl_express_1kg_to_france() {
         provider: None,
         service_level: Some(ServiceLevel::Express),
     };
-    
+
     let results = db.get_rates(&query).unwrap();
     assert!(!results.is_empty());
     let first_result = &results[0];
@@ -69,7 +69,7 @@ fn test_dhl_standard_2kg_to_france() {
         provider: None,
         service_level: Some(ServiceLevel::Standard),
     };
-    
+
     let results = db.get_rates(&query).unwrap();
     assert!(!results.is_empty());
     let first_service = &results[0].applicable_services[0];
@@ -93,7 +93,7 @@ fn test_package_too_heavy() {
         provider: None,
         service_level: Some(ServiceLevel::Standard),
     };
-    
+
     let results = db.get_rates(&query).unwrap();
     assert!(results.is_empty());
 }
@@ -114,7 +114,7 @@ fn test_package_dimensions_check() {
         provider: None,
         service_level: Some(ServiceLevel::Standard),
     };
-    
+
     let results = db.get_rates(&query).unwrap();
     assert!(results.is_empty());
 }
@@ -144,7 +144,7 @@ fn test_multiple_items() {
         provider: None,
         service_level: Some(ServiceLevel::Standard),
     };
-    
+
     let results = db.get_rates(&query).unwrap();
     assert_eq!(results.len(), 2);
 }
@@ -155,19 +155,17 @@ fn test_get_best_rates() {
     let query = ShippingRateQuery {
         source_region: Region::new("DE".to_string(), None).expect("Country code to be valid"),
         destination_region: Region::new("FR".to_string(), None).expect("Country code to be valid"),
-        items: vec![
-            ShippingItem {
-                identifier: "item1".to_string(),
-                weight: Some(1500),
-                length: Some(30),
-                width: Some(20),
-                height: Some(2),
-            },
-        ],
+        items: vec![ShippingItem {
+            identifier: "item1".to_string(),
+            weight: Some(1500),
+            length: Some(30),
+            width: Some(20),
+            height: Some(2),
+        }],
         provider: None,
         service_level: Some(ServiceLevel::Standard),
     };
-    
+
     let results = db.get_best_rates(&query).unwrap();
     assert_eq!(results.len(), 1);
     assert_eq!(results[0].applicable_services.len(), 1);
@@ -199,7 +197,7 @@ fn test_get_total_shipping_cost() {
         provider: None,
         service_level: Some(ServiceLevel::Standard),
     };
-    
+
     let total_cost = db.get_total_shipping_cost(&query).unwrap();
     assert!((total_cost - 22.98).abs() < 0.001);
 }
@@ -210,19 +208,17 @@ fn test_get_best_rates_express() {
     let query = ShippingRateQuery {
         source_region: Region::new("DE".to_string(), None).expect("Country code to be valid"),
         destination_region: Region::new("FR".to_string(), None).expect("Country code to be valid"),
-        items: vec![
-            ShippingItem {
-                identifier: "express_item".to_string(),
-                weight: Some(900),
-                length: Some(30),
-                width: Some(20),
-                height: Some(8),
-            },
-        ],
+        items: vec![ShippingItem {
+            identifier: "express_item".to_string(),
+            weight: Some(900),
+            length: Some(30),
+            width: Some(20),
+            height: Some(8),
+        }],
         provider: None,
         service_level: Some(ServiceLevel::Express),
     };
-    
+
     let results = db.get_best_rates(&query).unwrap();
     assert_eq!(results[0].applicable_services[0].rate.online_price, 55.90);
 }
