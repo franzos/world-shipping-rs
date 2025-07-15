@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## [0.2.1]
+
+### Changed
+
+- Applied clippy suggestions
+- Updated dependencies
+
 ## [0.2.0]
 
 ### Added

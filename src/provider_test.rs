@@ -1,4 +1,3 @@
-use log::debug;
 use crate::provider::{ShippingDatabase, ShippingRateQuery, ShippingItem};
 use crate::types::{Provider, Region, ServiceLevel};
 

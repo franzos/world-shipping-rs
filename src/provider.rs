@@ -48,7 +48,7 @@ impl ShippingItem {
         if let Some(height) = self.height {
             dimensions.push(height);
         }
-        if dimensions.len() == 0 {
+        if dimensions.is_empty() {
             return None;
         }
         dimensions.sort();
@@ -68,7 +68,7 @@ impl ShippingItem {
         if let Some(height) = self.height {
             dimensions.push(height);
         }
-        if dimensions.len() == 0 {
+        if dimensions.is_empty() {
             return None;
         }
         dimensions.sort();
@@ -299,7 +299,7 @@ impl ShippingDatabase {
         for provider in providers {
             for service in &provider.services {
                 for rate_info in &service.rates {
-                    if item.is_rate_match(&rate_info) {
+                    if item.is_rate_match(rate_info) {
                         let rate_country_match = self.match_rate_country(&rate_info.rate, destination);
                         if rate_country_match.is_none() {
                             continue;
@@ -315,7 +315,7 @@ impl ShippingDatabase {
             }
         }
         
-        if applicable_services.len() == 0 {
+        if applicable_services.is_empty() {
             return None;
         }
 
@@ -325,7 +325,7 @@ impl ShippingDatabase {
     pub fn get_rates(&self, query: &ShippingRateQuery) -> Result<Vec<ShippingRateItemResult>, Box<dyn std::error::Error>> {
         // 1. Get the country services for the source country
         let providers = self.get_country_services(&query.source_region.country).ok_or("Country not found")?;
-        let filtered_by_provider = self.filter_by_provider(&providers, query.provider.clone());
+        let filtered_by_provider = self.filter_by_provider(providers, query.provider.clone());
         if filtered_by_provider.is_none() {
             return Err("No providers found".into());
         }
