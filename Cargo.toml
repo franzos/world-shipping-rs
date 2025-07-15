@@ -1,6 +1,6 @@
 [package]
 name = "world-shipping"
-version = "0.2.1"
+version = "0.2.2"
 edition = "2021"
 license = "MIT"
 description = "A simple shipping calculator"
@@ -9,7 +9,7 @@ repository = "https://github.com/franzos/world-tax-rs"
 readme = "README.md"
 authors = ["Franz Geffke <mail@gofranz.com>"]
 keywords = ["shipping"]
-categories = ["trade"]
+categories = ["finance"]
 
 [dependencies]
 serde = { version = "1.0.219", features = ["derive"] }

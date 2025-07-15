@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
+## [0.2.2]
+
+### Fixed
+
+-  The following category slugs are not currently supported on crates.io: trade
+
 ## [0.2.1]
 
 ### Changed
